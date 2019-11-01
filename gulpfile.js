@@ -8,20 +8,20 @@ let gulp = require('gulp'),
     // cssmin = require('gulp-cssmin');
 
 gulp.task('sass', function(){
-    return gulp.src('app/scss/**/*.scss')
+    return gulp.src('docs/scss/**/*.scss')
             .pipe(sass({outputStyle: 'compressed'}))  // expanded
             .pipe(rename({suffix: '.min'}))
             .pipe(autoprefixer({
                 browsers: ['last 8 versions']
             }))
-            .pipe(gulp.dest('app/css'))
+            .pipe(gulp.dest('docs/css'))
             .pipe(browserSync.reload({stream: true}))
 });
 
     //  используется пока нет плагина gulp-cssmin
     // .pipe(concat('libs.css'))
     // .pipe(cssmin())    если используется плагин cssmin
-    // .pipe(gulp.dest('app/css'))
+    // .pipe(gulp.dest('docs/css'))
 
 gulp.task('style', function(){
     return gulp.src([
@@ -36,7 +36,7 @@ gulp.task('style', function(){
         'node_modules/animate.css/animate.css',             
     ])
         .pipe(concat('libs.css'))
-        .pipe(gulp.dest('app/css'))
+        .pipe(gulp.dest('docs/css'))
 });
 
 gulp.task('script', function(){
@@ -52,31 +52,31 @@ gulp.task('script', function(){
     ])
         .pipe(concat('libs.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('app/js'))
+        .pipe(gulp.dest('docs/js'))
 });
 
 gulp.task('html', function(){
-    return gulp.src('app/*.html')
+    return gulp.src('docs/*.html')
     .pipe(browserSync.reload({stream: true}))
 });
 
 gulp.task('js', function(){
-    return gulp.src('app/js/*.js')
+    return gulp.src('docs/js/*.js')
     .pipe(browserSync.reload({stream: true}))
 });
 
 gulp.task('browser-sync', function(){
     browserSync.init({
         server: {
-            baseDir: "app/"
+            baseDir: "docs/"
         }
     });
 });
 
 gulp.task('watch', function(){
-    gulp.watch('app/scss/**/*.scss', gulp.parallel('sass'))
-    gulp.watch('app/*.html', gulp.parallel('html'))
-    gulp.watch('app/js/*.js', gulp.parallel('js'))
+    gulp.watch('docs/scss/**/*.scss', gulp.parallel('sass'))
+    gulp.watch('docs/*.html', gulp.parallel('html'))
+    gulp.watch('docs/js/*.js', gulp.parallel('js'))
 });
 
 gulp.task('default', gulp.parallel('style', 'script', 'sass', 'watch', 'browser-sync'));
